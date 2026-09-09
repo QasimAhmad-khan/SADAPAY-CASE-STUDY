@@ -4,6 +4,7 @@ import {
   Bell,
   CheckCircle2,
   CirclePause,
+  ExternalLink,
   FileSearch,
   Lock,
   RefreshCw,
@@ -20,6 +21,64 @@ const currentFlow = [
   'Status',
   'Resolution',
   'Learning',
+];
+
+const sourceLinks = {
+  figma:
+    'https://www.figma.com/design/xQFTEaejqdYoMfCXgZf7j4/SadaPay-Transaction-Recovery-Wireframes?node-id=15-2&p=f&t=FFS9lXqvETpkfzXV-0',
+  lucid:
+    'https://lucid.app/lucidchart/ecb19f0e-7c8f-46ad-aebf-cc1f37e3370e/edit',
+};
+
+const lucidLanes = [
+  {
+    title: 'User Journey',
+    tone: 'blue',
+    steps: [
+      'Send transfer',
+      'See evidence',
+      'Report issue',
+      'Open details',
+      'Select reason',
+      'Wait safely',
+    ],
+  },
+  {
+    title: 'System State',
+    tone: 'mint',
+    steps: [
+      'Create ID',
+      'Check debit',
+      'Reconcile',
+      'Classify cause',
+      'Open case',
+      'Resolve state',
+    ],
+  },
+  {
+    title: 'UI Response',
+    tone: 'amber',
+    steps: [
+      'Receipt status',
+      'History row',
+      'Warning modal',
+      'Timeline',
+      'Safe retry CTA',
+      'Push updates',
+    ],
+  },
+  {
+    title: 'Support Ops',
+    tone: 'coral',
+    steps: [
+      'Auto-ticket',
+      'Support view',
+      'SLA check',
+      'Escalate',
+      'Audit log',
+      'Close case',
+    ],
+  },
 ];
 
 const scenarios = [
@@ -219,16 +278,17 @@ export default function Home() {
         <nav aria-label="Case study sections">
           <a href="#problem">Problem</a>
           <a href="#scenarios">Scenarios</a>
+          <a href="#lucid-flow">Flow Map</a>
           <a href="#wireframes">Wireframes</a>
           <a href="#outcome">Outcome</a>
         </nav>
         <div className="hero-grid">
           <div>
             <p className="kicker">Product design case study</p>
-            <h1>SadaPay Transaction Recovery</h1>
+            <h1>When money&apos;s in limbo.</h1>
             <p className="hero-copy">
-              A minimal proposal for protecting users when a transfer is sent,
-              delayed, interrupted, or uncertain.
+              What happens when a transaction goes quiet and users are left to
+              chase support for answers
             </p>
           </div>
           <div className="hero-panel" aria-label="Project summary">
@@ -244,14 +304,24 @@ export default function Home() {
               <span>Rule</span>
               <strong>No unsafe retry</strong>
             </div>
+            <div className="source-actions">
+              <a href={sourceLinks.figma} target="_blank" rel="noreferrer">
+                Figma <ExternalLink aria-hidden="true" />
+              </a>
+              <a href={sourceLinks.lucid} target="_blank" rel="noreferrer">
+                Lucid <ExternalLink aria-hidden="true" />
+              </a>
+            </div>
           </div>
         </div>
       </header>
 
       <Section eyebrow="problem" title="Problem">
         <p className="lead">
-          When Ali does not receive money, SadaPay must explain uncertainty
-          without creating duplicate loss.
+          When a payment fails or takes too long, SadaPay users do not get
+          enough clarity. The app becomes quiet at the exact moment users need
+          reassurance. This creates stress around their money and pushes them to
+          open live chat, even when the app could explain the issue on its own.
         </p>
         <div className="problem-grid">
           <div>
@@ -285,6 +355,14 @@ export default function Home() {
       </Section>
 
       <Section eyebrow="scenarios" title="Four Recovery Scenarios">
+        <p className="lead">
+          This case study focuses on common money-transfer problems: a transfer
+          stuck in progress, money deducted but not received, a failed
+          transaction with no clear reason, and a delayed response from the
+          recipient&apos;s bank. In each situation, the main issue is the same:
+          the user does not know what happened, whether their money is safe, or
+          what they should do next.
+        </p>
         <div className="scenario-grid">
           {scenarios.map((scenario) => (
             <article className={`scenario-card ${scenario.tone}`} key={scenario.id}>
@@ -329,12 +407,56 @@ export default function Home() {
         </div>
       </Section>
 
+      <Section eyebrow="lucid-flow" title="Flow Map">
+        <div className="source-heading">
+          <p>
+            The flow map breaks the recovery journey into clear steps. It shows
+            what the user does, what the system needs to check, and when the app
+            should allow retry, block retry, or move the case to support. This
+            helped separate user actions from backend states, making the
+            recovery logic easier to understand.
+          </p>
+          <a href={sourceLinks.lucid} target="_blank" rel="noreferrer">
+            Open Lucid chart <ExternalLink aria-hidden="true" />
+          </a>
+        </div>
+        <div className="lucid-map" aria-label="Lucid recovery flow map">
+          {lucidLanes.map((lane) => (
+            <div className={`lucid-lane ${lane.tone}`} key={lane.title}>
+              <h3>{lane.title}</h3>
+              <div>
+                {lane.steps.map((step, index) => (
+                  <span key={step}>
+                    {step}
+                    {index < lane.steps.length - 1 && (
+                      <ArrowRight aria-hidden="true" />
+                    )}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
       <Section eyebrow="wireframes" title="Wireframes">
+        <div className="source-heading">
+          <p>
+            The wireframes show the improved user-side experience. They
+            introduce clear status messages, safe retry rules, lock-screen
+            notifications, investigation states, and simple next steps. The goal
+            is to keep users informed without overwhelming them or making them
+            contact support too early.
+          </p>
+          <a href={sourceLinks.figma} target="_blank" rel="noreferrer">
+            Open Figma board <ExternalLink aria-hidden="true" />
+          </a>
+        </div>
         <div className="wireframe-layout">
           <div className="wireframe-copy">
             <p>
-              The Figma board keeps the sending timelines separate and shows
-              receipt, history, reporting, review, lock screen, and retry states.
+              The Figma board keeps the sending timelines separate and preserves
+              the lock-screen notification moments.
             </p>
             <div className="wireframe-tags">
               {wireframes.map((item) => (
@@ -342,7 +464,13 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <div className="wireframe-image">
+          <figure className="wireframe-image">
+            <div className="artifact-toolbar">
+              <span>Figma overview</span>
+              <a href="/figma-four-timelines.png" target="_blank">
+                Full image <ExternalLink aria-hidden="true" />
+              </a>
+            </div>
             <Image
               src="/figma-four-timelines.png"
               alt="Figma board showing four separate SadaPay transaction recovery timelines"
@@ -350,7 +478,7 @@ export default function Home() {
               height={4100}
               priority
             />
-          </div>
+          </figure>
         </div>
       </Section>
 
@@ -385,8 +513,11 @@ export default function Home() {
           <PhoneFrame variant="retry" />
           <div>
             <p className="lead">
-              A recovery model that separates user action, money-state logic,
-              interface response, and support escalation.
+              With this improved recovery flow, users get clearer answers
+              inside the app. They can understand if their money was deducted,
+              whether it is safe to retry, and when SadaPay is already checking
+              the issue. This reduces confusion, builds trust, and lowers
+              unnecessary support chat.
             </p>
             <div className="outcome-grid">
               <PhoneFrame variant="review" />
